@@ -1,7 +1,12 @@
-#import boto3
+import boto3
+
 
 def detect(bucket, name):
-    #rekognition = boto3.client("rekognition")
+    client = boto3.client("rekognition")
     print(f"This is the bucket {bucket} and the name {name}")
-    
-detect("foo", "bar")
+    response = client.detect_labels(
+        Image={"S3Object": {"Bucket": bucket, "Name": name,}}
+    )
+    return response
+
+print(detect(bucket = "netflix-film-studio-23", name = "dessert.jpg"))
